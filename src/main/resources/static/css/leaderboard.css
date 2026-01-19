@@ -1,0 +1,171 @@
+/* Layout tweaks for leaderboard page */
+body { 
+    overflow-y: auto;
+    padding-top: 4.5rem; 
+}
+
+/* Wider container for table pages */
+.main-container.leaderboard-page {
+  width: min(92vw, 52rem);
+}
+
+/* Keep title slightly larger */
+.leaderboard-title {
+   margin: 0.5rem auto 1.3rem;
+  font-family: 'Ship', sans-serif;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(0, 170, 255, 0.85);
+}
+
+/* Period buttons row */
+.duration {
+  margin: 1rem auto 1.4rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* Period buttons */
+.duration-button {
+  appearance: none;
+  -webkit-appearance: none;
+
+  padding: 0.65em 1.05em;
+  border-radius: 999px;
+
+  font-family: 'Ship', sans-serif;
+  font-size: clamp(0.9rem, 1.3vw, 1.05rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+
+  background: rgba(0, 0, 0, 0.45);
+  color: var(--cyan);
+
+  border: 1px solid rgba(0, 170, 255, 0.45);
+  box-shadow:
+    0 0 0.8rem rgba(0,170,255,0.25),
+    0 0 1.2rem rgba(255,0,255,0.15);
+
+  cursor: pointer;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, filter 0.16s ease;
+}
+
+.duration-button:hover {
+  transform: translateY(-1px) scale(1.03);
+  filter: brightness(1.08);
+  box-shadow:
+    0 0 1rem rgba(0,170,255,0.35),
+    0 0 1.6rem rgba(255,0,255,0.22);
+}
+
+/* Active period */
+.duration-button.active {
+  background: linear-gradient(145deg, rgba(0,170,255,0.22), rgba(255,0,255,0.16));
+  border-color: rgba(255, 0, 255, 0.55);
+  box-shadow:
+    0 0 1.1rem rgba(0,170,255,0.45),
+    0 0 2rem rgba(255,0,255,0.30);
+}
+
+/* Table wrapper */
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(0, 170, 255, 0.2);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* Table base */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 34rem;
+}
+
+/* Header cells */
+.table th {
+  padding: 1rem;
+  text-align: left;
+
+  font-family: 'Ship', sans-serif;
+  letter-spacing: 0.25em;
+  font-size: 0.95rem;
+
+  color: rgba(0, 170, 255, 0.95);
+  border-bottom: 1px solid rgba(255, 0, 255, 0.35);
+}
+
+/* Body cells */
+.table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid rgba(0, 170, 255, 0.18);
+  font-family: 'Ship', sans-serif;
+  letter-spacing: 0.14em;
+  color: rgba(0, 170, 255, 0.95);
+}
+
+/* User cell layout */
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+/* Rank badge */
+.rank {
+  min-width: 2.2rem;
+  height: 2.2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
+  font-family: 'Ship', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 0, 255, 0.35);
+  color: rgba(255, 0, 255, 0.95);
+
+  box-shadow: 0 0 0.9rem rgba(255,0,255,0.18);
+}
+
+/* Avatar */
+.profile-image {
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 0, 255, 0.55);
+  box-shadow:
+    0 0 0.8rem rgba(0,170,255,0.25),
+    0 0 1.2rem rgba(255,0,255,0.18);
+  object-fit: cover;
+}
+
+/* Username */
+.username {
+  color: rgba(0, 170, 255, 0.95);
+}
+
+/* Points column aligned + slightly bolder */
+.points {
+  text-align: left;
+  color: rgba(255, 0, 255, 0.92);
+  font-weight: 700;
+}
+
+/* Hover row */
+.table tbody tr:hover td {
+  background: rgba(0, 170, 255, 0.06);
+}
+
+/* Mobile */
+@media (max-width: 520px) {
+  .table {
+    min-width: 30rem;
+  }
+}

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Settings</title>
+
+    <link rel="stylesheet" href="../css/theme.css" th:href="@{/css/theme.css}" />
+    <link rel="stylesheet" href="../css/settings.css" th:href="@{/css/settings.css}" />
+
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css"
+    />
+
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>
+
+<body>
+<nav class="top-nav" th:if="${#authorization.expression('isAuthenticated()')}">
+    <a class="nav-button" th:href="@{/profile}">Home</a>
+    <a class="nav-button" th:href="@{/quiz}">quiz</a>
+    <a class="nav-button" th:href="@{/leaderboard}">Leaderboard</a>
+    <a class="nav-button" th:href="@{/rules}">guide</a>
+
+    <form th:action="@{/logout}" method="post" class="logout-form">
+        <button type="submit" class="nav-button logout-button">LOGOUT</button>
+    </form>
+</nav>
+
+<div class="moving-lines">
+    <div class="line1"></div>
+    <div class="line2"></div>
+    <div class="line3"></div>
+    <div class="line4"></div>
+    <div class="line5"></div>
+    <div class="line6"></div>
+
+    <div class="vline1"></div>
+    <div class="vline2"></div>
+    <div class="vline3"></div>
+    <div class="vline4"></div>
+    <div class="vline5"></div>
+    <div class="vline6"></div>
+</div>
+
+<div class="main-container settings-page">
+    <h2 class="welcome-text">Settings</h2>
+    <p class="rules-subtitle">Click to flip</p>
+
+    <div class="flip-grid">
+        <div class="flip-card flip-card-profile" tabindex="0" role="button" aria-label="Flip: Profile Picture">
+            <div class="flip-inner">
+                <div class="flip-face flip-front">
+                    <h3 class="big-title">Upload a new Profile Picture</h3>
+                </div>
+
+                <div class="flip-face flip-back">
+                    <div class="upload-block">
+                        <div class="upload-title">Upload & Crop</div>
+                        <input id="profilePictureUpload" class="upload-input" type="file" accept="image/*" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flip-card flip-card-password" tabindex="0" role="button" aria-label="Flip: Password">
+            <div class="flip-inner">
+                <div class="flip-face flip-front">
+                    <h3 class="big-title">Change Your Password</h3>
+                </div>
+
+                <div class="flip-face flip-back">
+                    <div class="upload-block">
+                        <div class="upload-title">Go to Password Page</div>
+                        <a class="nav-cta" th:href="@{/settings/change-password}">Continue</a>
+                        <div class="hint-row">You’ll update your password there.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="cropperModal" class="cropper-modal" style="display: none">
+    <div class="cropper-card">
+        <div class="cropper-stage">
+            <img id="imageToCrop" alt="Crop preview" />
+            <div class="cropper-circle"></div>
+        </div>
+
+        <div class="cropper-actions">
+            <button type="button" class="login-button" onclick="cropAndUpload()">Crop & Upload</button>
+            <button type="button" class="link-button" onclick="closeCropper()">Cancel</button>
+        </div>
+
+        <p id="uploadStatus" class="rules-subtitle" style="margin-top: 1rem"></p>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+
+<script th:src="@{/js/upload.js}"> </script>
+
+</body>
+</html>
