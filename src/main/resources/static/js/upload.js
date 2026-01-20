@@ -1,5 +1,4 @@
 (() => {
-
   const $ = (sel) => document.querySelector(sel);
 
   const tokenMeta = $('meta[name="_csrf"]');
@@ -11,23 +10,8 @@
   };
 
 
-  document.querySelectorAll(".flip-card").forEach((card) => {
-    const toggle = () => card.classList.toggle("is-flipped");
 
-    card.addEventListener("click", (e) => {
-      if (e.target.closest("input, a, button")) return;
-      toggle();
-    });
-
-    card.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        toggle();
-      }
-    });
-  });
-
-
+  // CROPPER INIT
   let cropper = null;
 
   const modal = $("#cropperModal");
@@ -60,12 +44,13 @@
 
     cropper = new Cropper(img, {
       aspectRatio: 1,
-      viewMode: 1,
+      viewMode: 2,
       dragMode: "move",
       autoCropArea: 1,
       movable: true,
       zoomable: true,
-      rotatable: false,
+      rotatable: false,.
+
       scalable: false,
       cropBoxMovable: false,
       cropBoxResizable: false,
@@ -77,7 +62,7 @@
   };
 
   input.addEventListener("change", (e) => {
-    const file = e.target.files && e.target.files[0];
+    const file = e.target.files?.[0];
     if (!file) return;
 
     const reader = new FileReader();
@@ -118,7 +103,7 @@
         const formData = new FormData();
         formData.append("file", blob, "avatar.png");
 
-        const res = await fetch("/settings/profile-pictures/upload", {
+        const res = await fetch("/settings/profile-picture", {
           method: "POST",
           headers: { [csrf.header]: csrf.token },
           body: formData,
@@ -140,7 +125,6 @@
       }
     }, "image/png");
   };
-
 
   window.cropAndUpload = cropAndUpload;
   window.closeCropper = closeModal;

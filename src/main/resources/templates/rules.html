@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Rules</title>
 
-  <!-- Global theme first -->
   <link rel="stylesheet" href="../css/theme.css" th:href="@{/css/theme.css}">
-  <!-- Page CSS second -->
   <link rel="stylesheet" href="../css/rules.css" th:href="@{/css/rules.css}">
 </head>
 
@@ -16,12 +15,8 @@
   <!-- Top-right nav -->
   <nav class="top-nav" th:if="${#authorization.expression('isAuthenticated()')}">
     <a class="nav-button" th:href="@{/profile}">Home</a>
-    <a class="nav-button" th:href="@{quiz}">quiz</a>
+    <a class="nav-button" th:href="@{/quiz}">quiz</a>
     <a class="nav-button" th:href="@{/leaderboard}">Leaderboard</a>
-    
-    
-    <a class="nav-button" th:href="@{/settings}">Settings</a>
-
     <form th:action="@{/logout}" method="post" class="logout-form">
       <button type="submit" class="nav-button logout-button">LOGOUT</button>
     </form>
@@ -31,104 +26,70 @@
   <div class="moving-lines">
     <div class="line1"></div><div class="line2"></div><div class="line3"></div>
     <div class="line4"></div><div class="line5"></div><div class="line6"></div>
-
     <div class="vline1"></div><div class="vline2"></div><div class="vline3"></div>
     <div class="vline4"></div><div class="vline5"></div><div class="vline6"></div>
   </div>
 
   <!-- Main card -->
   <div class="main-container rules-page">
-
     <h2 class="welcome-text">Here’s the Details</h2>
     <p class="rules-subtitle">Click to flip</p>
 
-    <!-- Two flip cards -->
-    <div class="flip-grid">
 
-      <!-- Card 1 -->
-      <div class="flip-card flip-card-what" tabindex="0" role="button" aria-label="Flip: What you see">
+    <div class="flip-grid">
+      <div class="flip-card flip-card-see" tabindex="0" role="button" aria-label="Flip: What you see">
         <div class="flip-inner">
 
-          <!-- Front -->
           <div class="flip-face flip-front">
             <h3 class="big-title">What You See</h3>
-            
           </div>
 
-          <!-- Back -->
           <div class="flip-face flip-back">
-            
-
-            <!-- Mini boxes: 1–2–3 -->
             <div class="mini-box-grid">
               <div class="mini-box">
                 <div class="mini-title">Song</div>
-                <div class="mini-desc">Artist + Title + Audio</div>
+                <div class="mini-desc">Artist 
+                  <br>Song Title
+                  <br>Audio Snippet</div>
               </div>
 
               <div class="mini-box">
                 <div class="mini-title">Movie</div>
-                <div class="mini-desc">Poster + Movie Title</div>
+                <div class="mini-desc">Poster Movie Title</div>
               </div>
 
-              <div class="mini-box">
+              <div class="mini-box mini-box--wide">
                 <div class="mini-title">Headline</div>
-                <div class="mini-desc">A real historic headline</div>
+                <div class="mini-desc">A top headline</div>
               </div>
-            </div>
-
-           
           </div>
 
         </div>
       </div>
+    </div>
 
-      <!-- Card 2 -->
       <div class="flip-card flip-card-rules" tabindex="0" role="button" aria-label="Flip: Rules">
         <div class="flip-inner">
 
-          <!-- Front -->
           <div class="flip-face flip-front">
             <h3 class="big-title">Rules</h3>
           </div>
 
-          <!-- Back -->
           <div class="flip-face flip-back">
-            
-
             <ul class="rules-list">
               <li><strong>30 seconds</strong> to answer</li>
               <li><strong>One guess</strong> only</li>
               <li>Timer starts when you click <strong>Start Quiz</strong></li>
-              <li>This page can be accessed <strong>once</strong></li>
             </ul>
-
-            
           </div>
 
         </div>
       </div>
 
     </div>
-
-    
-
   </div>
 
-  <!-- Flip behavior -->
-  <script>
-    document.querySelectorAll('.flip-card').forEach(card => {
-      const toggle = () => card.classList.toggle('is-flipped');
-
-      card.addEventListener('click', toggle);
-      card.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          toggle();
-        }
-      });
-    });
-  </script>
+  <script th:src="@{/js/flip.js}"> </script>
 
 </body>
 </html>

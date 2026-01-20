@@ -1,21 +1,10 @@
-/* Layout tweaks for leaderboard page */
+
 body { 
     overflow-y: auto;
-    padding-top: 4.5rem; 
 }
 
-/* Wider container for table pages */
 .main-container.leaderboard-page {
   width: min(92vw, 52rem);
-}
-
-/* Keep title slightly larger */
-.leaderboard-title {
-   margin: 0.5rem auto 1.3rem;
-  font-family: 'Ship', sans-serif;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(0, 170, 255, 0.85);
 }
 
 /* Period buttons row */
@@ -27,7 +16,6 @@ body {
   flex-wrap: wrap;
 }
 
-/* Period buttons */
 .duration-button {
   appearance: none;
   -webkit-appearance: none;
@@ -36,14 +24,14 @@ body {
   border-radius: 999px;
 
   font-family: 'Ship', sans-serif;
-  font-size: clamp(0.9rem, 1.3vw, 1.05rem);
-  letter-spacing: 0.18em;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
 
   background: rgba(0, 0, 0, 0.45);
   color: var(--cyan);
 
-  border: 1px solid rgba(0, 170, 255, 0.45);
+  border: 3px solid rgba(0, 170, 255, 0.45);
   box-shadow:
     0 0 0.8rem rgba(0,170,255,0.25),
     0 0 1.2rem rgba(255,0,255,0.15);
@@ -60,7 +48,6 @@ body {
     0 0 1.6rem rgba(255,0,255,0.22);
 }
 
-/* Active period */
 .duration-button.active {
   background: linear-gradient(145deg, rgba(0,170,255,0.22), rgba(255,0,255,0.16));
   border-color: rgba(255, 0, 255, 0.55);
@@ -69,7 +56,7 @@ body {
     0 0 2rem rgba(255,0,255,0.30);
 }
 
-/* Table wrapper */
+
 .table-wrap {
   width: 100%;
   overflow-x: auto;
@@ -78,21 +65,21 @@ body {
   background: rgba(0, 0, 0, 0.25);
 }
 
-/* Table base */
+
 .table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 34rem;
+  table-layout: fixed;
 }
 
-/* Header cells */
+
 .table th {
   padding: 1rem;
   text-align: left;
 
   font-family: 'Ship', sans-serif;
   letter-spacing: 0.25em;
-  font-size: 0.95rem;
+  font-size: 0.8rem;
 
   color: rgba(0, 170, 255, 0.95);
   border-bottom: 1px solid rgba(255, 0, 255, 0.35);
@@ -100,12 +87,26 @@ body {
 
 /* Body cells */
 .table td {
-  padding: 0.9rem 1rem;
+  padding: 0.5rem 1rem;
   border-bottom: 1px solid rgba(0, 170, 255, 0.18);
   font-family: 'Ship', sans-serif;
   letter-spacing: 0.14em;
   color: rgba(0, 170, 255, 0.95);
 }
+
+/* USER column gets remaining space */
+.table th:first-child,
+.table td:first-child {
+  width: auto;
+}
+
+/* POINTS column fixed & safe */
+.table th:nth-child(2),
+.table td:nth-child(2) {
+  width: 6rem;
+  text-align: center;
+}
+
 
 /* User cell layout */
 .user-cell {
@@ -116,8 +117,8 @@ body {
 
 /* Rank badge */
 .rank {
-  min-width: 2.2rem;
-  height: 2.2rem;
+  min-width: 1.5rem;
+  height: 1.5rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -135,9 +136,9 @@ body {
 }
 
 /* Avatar */
-.profile-image {
-  width: 2.4rem;
-  height: 2.4rem;
+.profile-picture {
+  width: 1rem;
+  height: 1rem;
   border-radius: 999px;
   border: 2px solid rgba(255, 0, 255, 0.55);
   box-shadow:
@@ -148,14 +149,38 @@ body {
 
 /* Username */
 .username {
+  display: block;
+  max-width: 100%;
+  font-family: 'Ship', sans-serif;
+  font-size: clamp(0.75rem, 2.5vw, 1rem);
+  letter-spacing: 0.12em;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
   color: rgba(0, 170, 255, 0.95);
 }
 
 /* Points column aligned + slightly bolder */
 .points {
-  text-align: left;
+  text-align: center;
   color: rgba(255, 0, 255, 0.92);
-  font-weight: 700;
+  font-weight: 600;
+}
+
+.table th:nth-child(2) {
+  text-align: center;
+}
+
+/* Vertical divider between USER and POINTS */
+.table th:first-child,
+.table td:first-child {
+  border-right: 1px solid rgba(0, 170, 255, 0.18);
+}
+
+.table tbody tr:hover td:first-child {
+  border-right-color: rgba(255, 0, 255, 0.35);
 }
 
 /* Hover row */
@@ -163,9 +188,19 @@ body {
   background: rgba(0, 170, 255, 0.06);
 }
 
-/* Mobile */
-@media (max-width: 520px) {
-  .table {
-    min-width: 30rem;
-  }
+.user-cell { min-width: 0; }
+
+.user-link{
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  min-width: 0;
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
 }
+
+.user-link:hover .username{
+  text-shadow: 0 0 0.8rem rgba(255,0,255,0.35);
+}
+

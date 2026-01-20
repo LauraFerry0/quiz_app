@@ -14,7 +14,7 @@
    Base / Global
 -------------------------------- */
 :root {
-  /* Scales everything nicely between mobile and desktop */
+
   font-size: clamp(14px, 1.15vw, 18px);
 }
 
