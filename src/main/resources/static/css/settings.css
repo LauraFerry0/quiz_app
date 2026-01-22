@@ -1,8 +1,17 @@
+/* =========================
+   Global
+========================= */
 body {
   overflow-y: auto;
 }
 
+body.modal-open {
+  overflow: hidden;
+}
 
+/* =========================
+   Settings page headings
+========================= */
 .settings-page .rules-subtitle {
   margin: 0 0 1.5rem;
   font-family: "Ship", sans-serif;
@@ -12,7 +21,9 @@ body {
   text-shadow: 0 0 0.75rem rgba(255, 0, 255, 0.55);
 }
 
-
+/* =========================
+   Flip cards
+========================= */
 .flip-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -55,11 +66,14 @@ body {
   justify-content: center;
   text-align: center;
   gap: 0.9rem;
+  padding: 1.4rem;
+
   background: rgba(0, 0, 0, 0.55);
   border: 1px solid rgba(0, 170, 255, 0.25);
   border-radius: 0.9rem;
-  padding: 1.4rem;
-  box-shadow: 0 0 1.25rem rgba(0, 85, 153, 0.35), 0 0 2.5rem rgba(255, 0, 255, 0.18);
+  box-shadow:
+    0 0 1.25rem rgba(0, 85, 153, 0.35),
+    0 0 2.5rem rgba(255, 0, 255, 0.18);
 }
 
 .flip-front {
@@ -72,7 +86,7 @@ body {
 
 .big-title {
   margin: 0;
-  font-family: 'Ship', sans-serif;
+  font-family: "Ship", sans-serif;
   font-size: clamp(1rem, 2vw, 1.5rem);
   letter-spacing: 0.22em;
   color: #00aaff;
@@ -82,17 +96,20 @@ body {
 .flip-inner::after {
   content: "↻";
   position: absolute;
-  top: 0.1rem;
+  top: 0.05rem;
   right: 0.95rem;
+  z-index: 10;
+  pointer-events: none;
+
   font-family: "Ship", sans-serif;
   font-size: 2rem;
   color: rgba(255, 0, 255, 0.95);
   text-shadow: 0 0 0.8rem rgba(0, 170, 255, 0.35);
-  pointer-events: none;
-  z-index: 10;
 }
 
-
+/* =========================
+   Upload block
+========================= */
 .upload-block {
   width: 100%;
   display: grid;
@@ -116,11 +133,14 @@ body {
   color: #00aaff;
 }
 
-/* CTA LINK BUTTON */
+/* =========================
+   CTA button
+========================= */
 .nav-cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   padding: 0.85em 2em;
   font-family: "Ship", sans-serif;
   font-weight: 800;
@@ -128,18 +148,135 @@ body {
   letter-spacing: 0.15em;
   text-transform: uppercase;
   text-decoration: none;
+
   color: #fff;
   background-image: linear-gradient(144deg, #00aaff, #ff00ff 80%);
   border: none;
   border-radius: 0.7rem;
-  box-shadow: 0 0 1rem rgba(0, 170, 255, 0.6), 0 0 1.8rem rgba(255, 0, 255, 0.4);
+  box-shadow:
+    0 0 1rem rgba(0, 170, 255, 0.6),
+    0 0 1.8rem rgba(255, 0, 255, 0.4);
   transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
 }
 
 .nav-cta:hover {
   transform: translateY(-2px) scale(1.03);
   filter: brightness(1.05);
-  box-shadow: 0 0 1.2rem rgba(0, 170, 255, 0.75), 0 0 2.2rem rgba(255, 0, 255, 0.5);
+  box-shadow:
+    0 0 1.2rem rgba(0, 170, 255, 0.75),
+    0 0 2.2rem rgba(255, 0, 255, 0.5);
 }
 
+/* =========================
+   Avatar modal + Cropper shell
+========================= */
+.avatar-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
 
+  z-index: 20 !important;
+  opacity: 1 !important;
+}
+
+.cropper-card {
+  width: min(92vw, 520px);
+  padding: 18px;
+  border-radius: 18px;
+
+  background: #111 !important;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+}
+
+.cropper-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 16px;
+
+  background: #0b0b0b;
+}
+
+#imageToCrop {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.cropper-stage .cropper-container {
+  pointer-events: auto;
+}
+
+.cropper-canvas,
+.cropper-container,
+.cropper-wrap-box {
+  border-radius: 16px;
+}
+
+/* Buttons row */
+.cropper-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 14px;
+}
+
+/* =========================
+   Cropper visuals: circular crop + darker outside + black ring
+========================= */
+
+/* Make crop area circular */
+.cropper-view-box,
+.cropper-face {
+  border-radius: 50%;
+}
+
+/* Darken EVERYTHING outside the crop area */
+.cropper-modal {
+  background-color: rgba(0, 0, 0, 0.78) !important;
+  opacity: 1 !important;
+}
+
+/* Black ring around the crop circle */
+.cropper-view-box {
+  outline: 2px solid rgba(0, 0, 0, 0.95);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 0 18px rgba(0, 0, 0, 0.55);
+}
+
+/* Hide cropper handles/lines */
+.cropper-line,
+.cropper-point {
+  opacity: 0;
+}
+
+/* =========================
+   Mobile tweaks
+========================= */
+@media (max-width: 520px) {
+  .top-nav {
+    justify-content: center;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 0.5rem;
+    z-index: 10;
+  }
+
+  .top-nav .logout-form {
+    position: fixed;
+    bottom: 1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    margin: 0;
+  }
+
+  body {
+    padding-bottom: 5rem;
+  }
+}
