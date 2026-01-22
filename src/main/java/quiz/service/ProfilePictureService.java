@@ -20,7 +20,7 @@ import quiz.repository.UserRepository;
 @Service
 public class ProfilePictureService {
 
-    @Value("${PROFILE_PICTURES_PATH}")
+    @Value("${profile.picture.path}")
     private String profilePictureDir;
 
     private final UserRepository userRepository;

@@ -15,7 +15,7 @@ public class PasswordService {
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailService emailService;
 
-    @Value("${app.base-url}")
+    @Value("${app.base.url}")
     private String appBaseUrl;
 
     public PasswordService(UserRepository userRepository,

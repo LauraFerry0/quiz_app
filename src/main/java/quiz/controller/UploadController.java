@@ -43,10 +43,12 @@ public class UploadController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("ok", false, "message", e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of("ok", false, "message", "Upload failed"));
-        }
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of("ok", false, "message", "Upload failed"));
     }
+
+}
 
     private static void validateImage(MultipartFile file) {
         if (file == null || file.isEmpty()) throw new IllegalArgumentException("No file uploaded.");

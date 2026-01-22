@@ -1,79 +1,103 @@
 (() => {
   const $ = (sel) => document.querySelector(sel);
 
+  // --- CSRF helpers (Spring-style meta tags) ---
   const tokenMeta = $('meta[name="_csrf"]');
   const headerMeta = $('meta[name="_csrf_header"]');
+  const getCsrf = () =>
+    tokenMeta && headerMeta ? { header: headerMeta.content, token: tokenMeta.content } : null;
 
-  const getCsrf = () => {
-    if (!tokenMeta || !headerMeta) return null;
-    return { header: headerMeta.content, token: tokenMeta.content };
-  };
-
-
-
-  // CROPPER INIT
-  let cropper = null;
-
+  // --- DOM refs ---
   const modal = $("#cropperModal");
   const img = $("#imageToCrop");
   const status = $("#uploadStatus");
   const input = $("#profilePictureUpload");
-
   if (!modal || !img || !status || !input) return;
 
+  let cropper = null;
+  let clamping = false;
+
+  // --- Modal open/close + Cropper lifecycle ---
   const openModal = () => {
     document.body.classList.add("modal-open");
     modal.style.display = "flex";
     status.textContent = "";
   };
 
+  const destroyCropper = () => {
+    if (!cropper) return;
+    cropper.destroy();
+    cropper = null;
+  };
+
   const closeModal = () => {
     modal.style.display = "none";
     document.body.classList.remove("modal-open");
     status.textContent = "";
-
-    if (cropper) {
-      cropper.destroy();
-      cropper = null;
-    }
+    destroyCropper();
     input.value = "";
   };
 
+  // --- Movement constraint: allow dragging, but never show empty space above the crop circle ---
+  const clampTopEdge = () => {
+    if (!cropper || clamping) return;
+
+    const canvas = cropper.getCanvasData();   // drawn image position/size
+    const cropBox = cropper.getCropBoxData(); // crop circle/box position/size
+
+    if (canvas.top > cropBox.top) {
+      clamping = true;
+      cropper.move(0, cropBox.top - canvas.top);
+      clamping = false;
+    }
+  };
+
+  // --- Create cropper on the current <img> ---
   const initCropper = () => {
-    if (cropper) cropper.destroy();
+    destroyCropper();
 
     cropper = new Cropper(img, {
       aspectRatio: 1,
-      viewMode: 2,
+      viewMode: 0, // free movement; we clamp only what we care about
       dragMode: "move",
-      autoCropArea: 1,
+      autoCropArea: 0.7,
+
       movable: true,
       zoomable: true,
-      rotatable: false,.
-
+      rotatable: false,
       scalable: false,
+
       cropBoxMovable: false,
       cropBoxResizable: false,
+
       guides: false,
       center: true,
       background: false,
       toggleDragModeOnDblclick: false,
+
     });
+
+    // Enforce clamp while the user drags
+    img.addEventListener("cropmove", clampTopEdge);
   };
 
+  // --- Load selected file into <img>, then open modal + init cropper --- //
   input.addEventListener("change", (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     const reader = new FileReader();
     reader.onload = () => {
+      img.onload = () => {
+        openModal();
+        initCropper();
+      };
       img.src = reader.result;
-      openModal();
-      initCropper();
     };
     reader.readAsDataURL(file);
   });
 
+  // --- Export circular PNG and upload to server ---
   const cropAndUpload = () => {
     if (!cropper) return;
 
@@ -111,7 +135,6 @@
         });
 
         const text = await res.text();
-
         if (!res.ok) {
           status.textContent = `Upload failed (${res.status}): ${text || "No response"}`;
           return;
@@ -126,6 +149,7 @@
     }, "image/png");
   };
 
+  // --- Expose button handlers to the page ---
   window.cropAndUpload = cropAndUpload;
   window.closeCropper = closeModal;
 })();
